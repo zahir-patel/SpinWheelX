@@ -1,3 +1,5 @@
+library spin_wheel;
+
 /// Configuration model for SpinWheel
 
 import 'dart:math' as math;

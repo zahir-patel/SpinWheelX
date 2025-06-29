@@ -23,12 +23,12 @@ class SpinWheel extends StatelessWidget {
   final void Function(int selectedIndex)? onSpinEnd;
 
     /// Creates a new SpinWheel widget.
-  const SpinWheel({
-    Key? key,
+    const SpinWheel({
+    super.key,
     required this.config,
     required this.controller,
     this.onSpinEnd,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

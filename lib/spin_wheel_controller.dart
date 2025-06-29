@@ -1,3 +1,5 @@
+library spin_wheel;
+
 import 'package:meta/meta.dart';
 
 /// Controller for managing spin logic
