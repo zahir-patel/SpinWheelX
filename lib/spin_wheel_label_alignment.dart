@@ -12,4 +12,7 @@ enum SpinWheelLabelAlignment {
 
   /// Labels are drawn horizontally and do not rotate with the wheel.
   horizontal,
+
+  /// The text is aligned tangentially to the wheel's curve, remaining upright.
+  tangential,
 }

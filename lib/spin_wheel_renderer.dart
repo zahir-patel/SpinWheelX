@@ -21,7 +21,8 @@ class SpinWheelRenderer extends StatefulWidget {
   State<SpinWheelRenderer> createState() => _SpinWheelRendererState();
 }
 
-class _SpinWheelRendererState extends State<SpinWheelRenderer> with SingleTickerProviderStateMixin {
+class _SpinWheelRendererState extends State<SpinWheelRenderer>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
   double _currentAngle = 0.0;
@@ -81,7 +82,8 @@ class _SpinWheelRendererState extends State<SpinWheelRenderer> with SingleTicker
   }
 
   void _startSpin(int targetIndex) {
-    assert(targetIndex >= 0 && targetIndex < widget.config.divisions, 'targetIndex must be a valid segment index.');
+    assert(targetIndex >= 0 && targetIndex < widget.config.divisions,
+        'targetIndex must be a valid segment index.');
     if (_isSpinning) return;
     if (widget.config.divisions <= 0) return;
     setState(() {
@@ -93,12 +95,15 @@ class _SpinWheelRendererState extends State<SpinWheelRenderer> with SingleTicker
     final double spins = 4 + (2 * widget.config.spinResistance);
     final double fullSpinsInRadians = 2 * math.pi * spins;
     final double segmentAngle = 2 * math.pi / widget.config.divisions;
-    final double winningSegmentCenter = (segmentAngle * _winningIndex!) + (segmentAngle / 2);
+    final double winningSegmentCenter =
+        (segmentAngle * _winningIndex!) + (segmentAngle / 2);
     final double targetRotation = -math.pi / 2 - winningSegmentCenter;
     final double currentRotationOffset = _currentAngle % (2 * math.pi);
-    final double end = fullSpinsInRadians + targetRotation - currentRotationOffset;
+    final double end =
+        fullSpinsInRadians + targetRotation - currentRotationOffset;
 
-    _animation = Tween<double>(begin: _currentAngle, end: _currentAngle + end).animate(CurvedAnimation(
+    _animation = Tween<double>(begin: _currentAngle, end: _currentAngle + end)
+        .animate(CurvedAnimation(
       parent: _animationController,
       curve: widget.config.animationCurve ?? Curves.decelerate,
     ));
@@ -116,33 +121,38 @@ class _SpinWheelRendererState extends State<SpinWheelRenderer> with SingleTicker
   }
 
   Offset _getLabelOffset() {
-    final radius = widget.config.width / 2 * 0.8;
-    return Offset(radius, 0);
+    final outerRadius = widget.config.width / 2;
+    final innerRadius = outerRadius * widget.config.centerHoleRadius;
+    // Position the label in the middle of the ring by default
+    final distance = innerRadius +
+        (outerRadius - innerRadius) * widget.config.labelOffsetFromCenter;
+    return Offset(distance, 0);
   }
 
-          double _getLabelRotation(int index) {
+  double _getLabelRotation(int index) {
     // Priority 1: Use specific degree rotation if provided
     if (widget.config.labelRotationsInDegrees != null &&
-        index < widget.config.labelRotationsInDegrees!.length) {
-      final rotationInDegrees = widget.config.labelRotationsInDegrees![index];
-      if (rotationInDegrees != null) {
-        return rotationInDegrees * math.pi / 180;
-      }
+        index < widget.config.labelRotationsInDegrees!.length &&
+        widget.config.labelRotationsInDegrees![index] != null) {
+      return widget.config.labelRotationsInDegrees![index]! * (math.pi / 180);
     }
 
-    // Priority 2: Fall back to existing alignment logic
-    final angle = _getLabelAngle(index);
+    // Priority 2: Use label alignment
     switch (widget.config.labelAlignment) {
-      case SpinWheelLabelAlignment.radial:
-        // Keep text upright by rotating it with the segment, then flipping it if it's upside down.
-        return (angle > math.pi / 2 && angle < 3 * math.pi / 2) ? angle + math.pi : angle;
       case SpinWheelLabelAlignment.segment:
-        // TODO: Re-implement tangential rotation. For now, it's horizontal.
-        return 0.0;
-      case SpinWheelLabelAlignment.curved:
+        return 0; // No additional rotation needed
       case SpinWheelLabelAlignment.horizontal:
+        return -_getLabelAngle(index); // Counter-rotate to keep horizontal
+      case SpinWheelLabelAlignment.tangential:
+        // Rotate with the segment, then add 90 degrees to be perpendicular to the radius
+        final labelAngle = _getLabelAngle(index);
+        return labelAngle > math.pi / 2 && labelAngle < 3 * math.pi / 2
+            ? labelAngle - math.pi / 2
+            : labelAngle + math.pi / 2;
+      case SpinWheelLabelAlignment.curved:
+      case SpinWheelLabelAlignment.radial:
       default:
-        // For curved, rotation is handled by the painter. For horizontal, it's 0.
+        // For curved, rotation is handled by the painter. For radial, it's 0.
         return 0.0;
     }
   }
@@ -177,10 +187,13 @@ class _SpinWheelRendererState extends State<SpinWheelRenderer> with SingleTicker
                 ),
 
                 // Labels
-                if (widget.config.labels != null && widget.config.labels!.isNotEmpty) ...[
+                if (widget.config.labels != null &&
+                    widget.config.labels!.isNotEmpty) ...[
                   for (int i = 0; i < widget.config.divisions; i++) ...[
-                    if (i < widget.config.labels!.length && widget.config.labels![i].isNotEmpty) ...[
-                      if (widget.config.labelAlignment == SpinWheelLabelAlignment.curved) ...[
+                    if (i < widget.config.labels!.length &&
+                        widget.config.labels![i].isNotEmpty) ...[
+                      if (widget.config.labelAlignment ==
+                          SpinWheelLabelAlignment.curved) ...[
                         SizedBox.fromSize(
                           size: size,
                           child: CustomPaint(
@@ -233,20 +246,38 @@ class _WheelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final rect = Rect.fromCircle(center: center, radius: size.width / 2);
+    final outerRadius = size.width / 2;
+    final innerRadius = outerRadius * config.centerHoleRadius;
+    final rect = Rect.fromCircle(center: center, radius: outerRadius);
     final segmentAngle = 2 * math.pi / config.divisions;
 
     for (int i = 0; i < config.divisions; i++) {
       final startAngle = i * segmentAngle - math.pi / 2;
       final paint = Paint()
         ..style = PaintingStyle.fill
-        ..color = config.segmentColors![i % config.segmentColors!.length] ?? Colors.grey;
+        ..color = config.segmentColors![i % config.segmentColors!.length] ??
+            Colors.grey;
 
-      if (config.segmentGradients != null && i < config.segmentGradients!.length) {
+      if (config.segmentGradients != null &&
+          i < config.segmentGradients!.length) {
         paint.shader = config.segmentGradients![i]!.createShader(rect);
       }
 
-      canvas.drawArc(rect, startAngle, segmentAngle, true, paint);
+      // Create a path for the donut segment
+      final path = Path();
+      if (config.centerHoleRadius > 0) {
+        path.moveTo(center.dx + innerRadius * math.cos(startAngle),
+            center.dy + innerRadius * math.sin(startAngle));
+        path.arcTo(rect, startAngle, segmentAngle, false);
+        path.arcTo(Rect.fromCircle(center: center, radius: innerRadius),
+            startAngle + segmentAngle, -segmentAngle, false);
+        path.close();
+      } else {
+        path.moveTo(center.dx, center.dy);
+        path.arcTo(rect, startAngle, segmentAngle, false);
+        path.close();
+      }
+      canvas.drawPath(path, paint);
     }
 
     // Draw dividers
@@ -255,10 +286,29 @@ class _WheelPainter extends CustomPainter {
         ..color = config.dividerColor
         ..strokeWidth = config.dividerThickness;
       for (int i = 0; i < config.divisions; i++) {
-        final angle = i * segmentAngle;
-        final to = Offset(center.dx + size.width / 2 * math.cos(angle), center.dy + size.width / 2 * math.sin(angle));
-        canvas.drawLine(center, to, dividerPaint);
+        final angle = i * segmentAngle - math.pi / 2;
+        final from = Offset(center.dx + innerRadius * math.cos(angle),
+            center.dy + innerRadius * math.sin(angle));
+        final to = Offset(center.dx + outerRadius * math.cos(angle),
+            center.dy + outerRadius * math.sin(angle));
+        canvas.drawLine(from, to, dividerPaint);
       }
+    }
+
+    // Draw outer border
+    final borderPaint = Paint()
+      ..color = config.dividerColor // Use divider color for consistency
+      ..strokeWidth = config.dividerThickness
+      ..style = PaintingStyle.stroke;
+    canvas.drawCircle(center, outerRadius, borderPaint);
+
+    // Draw inner border (around center hole)
+    if (config.centerHoleRadius > 0) {
+      final innerBorderPaint = Paint()
+        ..color = config.dividerColor
+        ..strokeWidth = config.dividerThickness
+        ..style = PaintingStyle.stroke;
+      canvas.drawCircle(center, innerRadius, innerBorderPaint);
     }
   }
 
@@ -285,7 +335,8 @@ class _CurvedTextPainter extends CustomPainter {
     canvas.translate(size.width / 2, size.height / 2);
 
     final textSpan = TextSpan(text: text, style: textStyle);
-    final textPainter = TextPainter(text: textSpan, textDirection: TextDirection.ltr);
+    final textPainter =
+        TextPainter(text: textSpan, textDirection: TextDirection.ltr);
     textPainter.layout();
 
     final double textArc = textPainter.width / radius;
@@ -293,7 +344,9 @@ class _CurvedTextPainter extends CustomPainter {
 
     for (int i = 0; i < text.length; i++) {
       final char = text[i];
-      final charPainter = TextPainter(text: TextSpan(text: char, style: textStyle), textDirection: TextDirection.ltr);
+      final charPainter = TextPainter(
+          text: TextSpan(text: char, style: textStyle),
+          textDirection: TextDirection.ltr);
       charPainter.layout();
 
       final double charArc = charPainter.width / radius;
@@ -304,7 +357,8 @@ class _CurvedTextPainter extends CustomPainter {
       canvas.translate(x, y);
       canvas.rotate(currentAngle + charArc / 2 + math.pi / 2);
 
-      charPainter.paint(canvas, Offset(-charPainter.width / 2, -charPainter.height / 2));
+      charPainter.paint(
+          canvas, Offset(-charPainter.width / 2, -charPainter.height / 2));
 
       canvas.restore();
 

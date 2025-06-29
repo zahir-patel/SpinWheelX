@@ -85,6 +85,17 @@ class SpinWheelConfig {
     /// The total duration of the spin animation.
   final Duration spinDuration;
 
+  /// The radius of the hollow center circle, creating a 'donut' effect.
+  /// This value is a factor of the wheel's radius (e.g., 0.4 means 40% of the radius).
+  /// Must be between 0.0 (no hole) and 1.0 (no wheel).
+  final double centerHoleRadius;
+
+  /// A factor (0.0 to 1.0) that determines the radial position of the labels.
+  /// 0.0 places labels on the inner edge of the ring, 0.5 in the middle, and 1.0 on the outer edge.
+  final double labelOffsetFromCenter;
+
+
+
   // Sound and Effects
     /// An optional asset path for a sound to play while the wheel is spinning.
   final String? spinningSound;
@@ -122,6 +133,8 @@ class SpinWheelConfig {
     this.spinningSound,
     this.winningSound,
     this.confettiController,
+    this.centerHoleRadius = 0.0,
+    this.labelOffsetFromCenter = 0.5,
   })  : assert(divisions > 0, 'divisions must be greater than 0'),
         assert(width > 0, 'width must be greater than 0'),
         assert(height > 0, 'height must be greater than 0'),
@@ -137,6 +150,8 @@ class SpinWheelConfig {
         assert(segmentImages == null || segmentImages.length == divisions, 'segmentImages length must match divisions'),
         assert(segmentGifs == null || segmentGifs.length == divisions, 'segmentGifs length must match divisions'),
         assert(segmentLotties == null || segmentLotties.length == divisions, 'segmentLotties length must match divisions'),
+        assert(centerHoleRadius >= 0 && centerHoleRadius < 1, 'centerHoleRadius must be between 0.0 and 1.0'),
+        assert(labelOffsetFromCenter >= 0 && labelOffsetFromCenter <= 1, 'labelOffsetFromCenter must be between 0.0 and 1.0'),
         initialSpinAngle = (initialSpinAngleInDegrees != null)
             ? (initialSpinAngleInDegrees * math.pi / 180)
             : initialSpinAngle;
