@@ -1,15 +1,23 @@
 # Contributing to Spin Wheel Flutter SDK
 
-Thank you for your interest in contributing!
+## Table of Contents
+- [How to Contribute](#how-to-contribute)
+- [Reporting Issues](#reporting-issues)
+- [Code Style](#code-style)
+- [Testing](#testing)
+- [Communication](#communication)
+- [Code of Conduct](#code-of-conduct)
+
+---
 
 ## How to Contribute
-- Fork the repository
-- Create a new branch for your feature or bugfix (`git checkout -b feature/YourFeature`)
-- Make your changes
-- Write or update tests if needed
-- Ensure all tests pass
-- Commit and push your branch
-- Open a pull request with a clear description
+1. Fork the repository
+2. Create a new branch for your feature or bugfix (`git checkout -b feature/YourFeature`)
+3. Make your changes
+4. Write or update tests if needed
+5. Ensure all tests pass
+6. Commit and push your branch
+7. Open a pull request with a clear description
 
 ## Reporting Issues
 - Use the GitHub Issues tab
@@ -27,5 +35,10 @@ Thank you for your interest in contributing!
 ## Communication
 - Be respectful and constructive
 - For major changes, open an issue first to discuss
+
+---
+
+## Code of Conduct
+Please be respectful and inclusive. Harassment or discrimination of any kind will not be tolerated. See the [Contributor Covenant](https://www.contributor-covenant.org/) for more details.
 
 Thank you for helping make this project better! 
