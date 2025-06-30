@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2024-06-13
+## [1.2.0] - 2025-06-30
 ### Added
 - Tabbed demo UI with Basic, Gradient, and Image tabs
 - Placeholder for Image Segments Demo (coming soon)
