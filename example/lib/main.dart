@@ -2,6 +2,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:spin_wheel/spin_wheel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'tap_gradient_demo.dart';
+import 'image_demo.dart';
 // import 'package:lottie/lottie.dart'; // Uncomment if you use Lottie files
 
 void main() {
@@ -18,7 +20,38 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SpinWheelDemo(),
+      home: const DemoHomeTabs(),
+    );
+  }
+}
+
+class DemoHomeTabs extends StatelessWidget {
+  const DemoHomeTabs({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Spin Wheel Demos',
+              style: GoogleFonts.montserrat(fontWeight: FontWeight.bold)),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Basic'),
+              Tab(text: 'Gradient'),
+              Tab(text: 'Image'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            const SpinWheelDemo(),
+            const TapGradientDemo(),
+            ImageDemo(),
+          ],
+        ),
+      ),
     );
   }
 }

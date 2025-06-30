@@ -8,22 +8,25 @@ export 'spin_wheel_renderer.dart';
 export 'spin_wheel_label_alignment.dart';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'spin_wheel_renderer.dart';
 import 'spin_wheel_config.dart';
 import 'spin_wheel_controller.dart';
 
 /// The main widget that renders the spin wheel, pointer, and center widget.
 class SpinWheel extends StatelessWidget {
-    /// The configuration that defines the appearance and behavior of the wheel.
+  /// The configuration that defines the appearance and behavior of the wheel.
   final SpinWheelConfig config;
-    /// The controller used to programmatically spin the wheel.
+
+  /// The controller used to programmatically spin the wheel.
   final SpinWheelController controller;
-    /// A callback function that is invoked when the spin animation completes.
+
+  /// A callback function that is invoked when the spin animation completes.
   /// It provides the index of the winning segment.
   final void Function(int selectedIndex)? onSpinEnd;
 
-    /// Creates a new SpinWheel widget.
-    const SpinWheel({
+  /// Creates a new SpinWheel widget.
+  const SpinWheel({
     super.key,
     required this.config,
     required this.controller,
@@ -32,7 +35,7 @@ class SpinWheel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    Widget wheel = Stack(
       alignment: Alignment.center,
       children: [
         SpinWheelRenderer(
@@ -49,6 +52,24 @@ class SpinWheel extends StatelessWidget {
           ),
       ],
     );
+    if (config.tapToSpin) {
+      wheel = GestureDetector(
+        onTap: () {
+          // Only trigger if not already spinning
+          if (controller.isSpinning.value) return;
+          // Pick a random segment
+          final divisions = config.divisions;
+          if (divisions > 0) {
+            final randomIndex =
+                (DateTime.now().millisecondsSinceEpoch % divisions);
+            controller.spin(randomIndex);
+          }
+          // Haptic feedback
+          HapticFeedback.mediumImpact();
+        },
+        child: wheel,
+      );
+    }
+    return wheel;
   }
 }
-
