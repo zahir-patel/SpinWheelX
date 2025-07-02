@@ -1,7 +1,8 @@
 # Spin Wheel Flutter SDK
 
-[![Pub Version](https://img.shields.io/badge/pub-git-blue)](https://github.com/zahir-patel/SpinWheenX)
+[![Pub Version](https://img.shields.io/badge/pub-git-blue)](https://github.com/sdkwala/SpinWheelX)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Website](https://img.shields.io/badge/Website-www.sdkwala.com-blue)](https://www.sdkwala.com)
 
 <!-- Uncomment the line below if the GIF exists in your repo root -->
 <!-- ![Spin Wheel Flutter SDK Demo](spinwheelsdk-zp.gif) -->

@@ -3,9 +3,10 @@ version: 1.2.0
 
 description: >
   A highly customizable, open-source spin wheel widget for Flutter. Perfect for games, promotions, lucky draws, and interactive apps. Supports custom layouts, animations, modular plugins, and vibrant backgrounds.
-repository: https://github.com/zahir-patel/SpinWheenX
-homepage: https://github.com/zahir-patel/SpinWheenX
-issue_tracker: https://github.com/zahir-patel/SpinWheenX/issues
+author: sdkwala.com <sdkwala.com@gmail.com>
+repository: https://github.com/sdkwala/SpinWheelX
+homepage: https://www.sdkwala.com
+issue_tracker: https://github.com/sdkwala/SpinWheelX/issues
 license: MIT
 environment:
   sdk: ">=2.17.0 <4.0.0"
