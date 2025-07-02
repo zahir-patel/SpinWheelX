@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2025-07-02
+### Changed
+- Updated repository URL to https://github.com/sdkwala/SpinWheelX
+- Updated author information to sdkwala.com
+- Updated homepage to https://www.sdkwala.com
+- Updated README with new repository and website information
+- Updated LICENSE copyright notice
+
+
 ## [1.2.0] - 2025-06-30
 ### Added
 - Tabbed demo UI with Basic, Gradient, and Image tabs
