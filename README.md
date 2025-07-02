@@ -1,6 +1,6 @@
 # Spin Wheel Flutter SDK
 
-[![Pub Version](https://img.shields.io/badge/pub-git-blue)](https://github.com/sdkwala/SpinWheelX)
+[![Pub Version](https://img.shields.io/badge/pub-git-blue)](https://github.com/zahir-patel/SpinWheenX)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-www.sdkwala.com-blue)](https://www.sdkwala.com)
 
@@ -166,7 +166,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 ## 💬 Contact & Support
 - Author: Zahir Patel
-- GitHub: [SpinWheenX](https://github.com/zahir-patel/SpinWheenX)
+- GitHub: [SpinWheenX](https://github.com/zahir-patel/SpinWheenX.git)
 - Issues: Use the GitHub issues tab for bug reports and feature requests.
 
 ---

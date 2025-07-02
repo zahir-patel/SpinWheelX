@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.1] - 2025-07-02
 ### Changed
-- Updated repository URL to https://github.com/sdkwala/SpinWheelX
+- Updated repository URL to https://github.com/zahir-patel/SpinWheenX.git
 - Updated author information to sdkwala.com
 - Updated homepage to https://www.sdkwala.com
 - Updated README with new repository and website information
@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 - Placeholder for Image Segments Demo (coming soon)
 - Improved gradient demo with tap-to-spin and haptic feedback
 - Async image segment support (internal, not yet public)
-- Updated repository URL to https://github.com/zahir-patel/SpinWheelX.git
+- Updated repository URL to https://github.com/zahir-patel/SpinWheenX.git
 
 ### Changed
 - Refactored example app for better navigation and extensibility
